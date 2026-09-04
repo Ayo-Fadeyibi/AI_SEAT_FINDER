@@ -1,0 +1,32 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+/* Admin onboarding tour (driver.js) — match the app's monospace look */
+.findaspot-tour {
+  font-family: 'JetBrains Mono', monospace !important;
+  border-radius: 0 !important;
+}
+.findaspot-tour .driver-popover-title {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+.findaspot-tour .driver-popover-description {
+  font-size: 10px !important;
+  line-height: 1.6 !important;
+  color: rgba(17, 17, 16, 0.6) !important;
+}
+.findaspot-tour button {
+  font-family: 'JetBrains Mono', monospace !important;
+  border-radius: 0 !important;
+}
+.findaspot-tour .driver-popover-next-btn,
+.findaspot-tour .driver-popover-done-btn {
+  background: #111110 !important;
+  color: #F0EDE6 !important;
+  border: none !important;
+  text-shadow: none !important;
+}
+.findaspot-tour .driver-popover-progress-text {
+  font-size: 9px !important;
+}

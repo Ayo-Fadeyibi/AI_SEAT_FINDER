@@ -1,0 +1,17 @@
+[
+  {
+    "username": "Ayo",
+    "salt": "e22bf0fb1bfacfd2199ace1e4760ec9c",
+    "password_hash": "23046849c62f8b1d1cc0b84271f964cc22a42286bcf7eb82264a4a5f27fc0f3c"
+  },
+  {
+    "username": "Charlotte",
+    "salt": "f7ac3145b24473a4ecfb17826aebbd1d",
+    "password_hash": "be468fcc58b44551d213ff1ffc9ee64c4f06b72c63d01079e50ddcf0f1ce52ae"
+  },
+  {
+    "username": "Deven",
+    "salt": "362dcf0d1e02304797506266fa619b4e",
+    "password_hash": "51677d4ef551ce3ece42f84ecaba6b68e75b23a1506ff8de5ebc718a71029b65"
+  }
+]

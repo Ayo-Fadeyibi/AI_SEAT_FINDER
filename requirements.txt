@@ -1,0 +1,22 @@
+openai>=1.0.0
+fastapi>=0.100.0
+uvicorn>=0.23.0
+pydantic>=2.0.0
+python-multipart>=0.0.6
+
+# PostgreSQL persistence (replaces the flat-file JSON store).
+# psycopg[binary] ships prebuilt wheels so no local libpq/compiler is needed.
+sqlalchemy>=2.0.0
+psycopg[binary]>=3.1.0
+alembic>=1.13.0
+
+# Camera occupancy detection (see docs/camera_calibration.md).
+# We run YOLOv8n through ONNX Runtime rather than ultralytics: same model,
+# same detections, but ~135MB installed instead of the 1-2GB that
+# ultralytics' torch/opencv/matplotlib/pandas stack pulls in to run a 12MB
+# model. Warm inference is ~33ms/frame on CPU.
+#
+# The model file itself is fetched separately:  python scripts/fetch_model.py
+onnxruntime>=1.17.0   # YOLO inference (no torch)
+numpy>=1.24.0         # pre/post-processing (letterbox, NMS)
+pillow>=10.0.0        # image decode + snapshot dimensions

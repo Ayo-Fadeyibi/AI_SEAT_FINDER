@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>FindaSpot — Every seat should tell the truth</title>
+<meta name="description" content="FindaSpot reads your library's floor in real time and tells each student exactly where to sit — while giving administrators the data to end seat hoarding, without buying a single sensor." />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --bg-2: #F0EDE6;
+    --text: #111110;
+    --text-soft: rgba(17,17,16,0.6);
+    --text-faint: rgba(17,17,16,0.38);
+    --border: rgba(17,17,16,0.13);
+    --border-strong: rgba(17,17,16,0.28);
+    --gold: #B8944A;
+    --gold-soft: rgba(184,148,74,0.14);
+    --available: #2E7A50;
+    --occupied: #A83838;
+    --chip-bg: #111110;
+    --chip-text: #F0EDE6;
+    --shadow: 0 1px 0 rgba(17,17,16,0.04);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #131210;
+      --bg-2: #1C1B17;
+      --text: #F0EDE6;
+      --text-soft: rgba(240,237,230,0.64);
+      --text-faint: rgba(240,237,230,0.4);
+      --border: rgba(240,237,230,0.14);
+      --border-strong: rgba(240,237,230,0.26);
+      --gold: #D3B36C;
+      --gold-soft: rgba(211,179,108,0.16);
+      --available: #4FAE76;
+      --occupied: #D9695F;
+      --chip-bg: #F0EDE6;
+      --chip-text: #131210;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #131210; --bg-2: #1C1B17; --text: #F0EDE6; --text-soft: rgba(240,237,230,0.64);
+    --text-faint: rgba(240,237,230,0.4); --border: rgba(240,237,230,0.14); --border-strong: rgba(240,237,230,0.26);
+    --gold: #D3B36C; --gold-soft: rgba(211,179,108,0.16); --available: #4FAE76; --occupied: #D9695F;
+    --chip-bg: #F0EDE6; --chip-text: #131210;
+  }
+  :root[data-theme="light"] {
+    --bg: #FAFAF8; --bg-2: #F0EDE6; --text: #111110; --text-soft: rgba(17,17,16,0.6);
+    --text-faint: rgba(17,17,16,0.38); --border: rgba(17,17,16,0.13); --border-strong: rgba(17,17,16,0.28);
+    --gold: #B8944A; --gold-soft: rgba(184,148,74,0.14); --available: #2E7A50; --occupied: #A83838;
+    --chip-bg: #111110; --chip-text: #F0EDE6;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .mono {
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  }
+
+  .label {
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 400; }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  @media (max-width: 640px) { .wrap { padding: 0 20px; } }
+
+  .prose { max-width: 640px; }
+
+  /* ---- Nav ---- */
+  nav.top {
+    position: sticky; top: 0; z-index: 40;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .navrow {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 62px;
+  }
+  .wordmark {
+    display: flex; align-items: center; gap: 8px;
+    font-family: ui-monospace, monospace;
+    font-weight: 700; font-size: 14px; letter-spacing: 0.02em;
+    text-decoration: none; color: var(--text);
+  }
+  .wordmark .glyph {
+    width: 18px; height: 18px; flex-shrink: 0;
+  }
+  .navlinks { display: flex; align-items: center; gap: 28px; }
+  .navlinks a {
+    font-family: ui-monospace, monospace; font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none; color: var(--text-soft);
+    transition: color 0.15s ease;
+  }
+  .navlinks a:hover, .navlinks a:focus-visible { color: var(--text); }
+  .navcta {
+    font-family: ui-monospace, monospace; font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none; font-weight: 700;
+    background: var(--chip-bg); color: var(--chip-text);
+    padding: 9px 16px; white-space: nowrap;
+  }
+  .navmobile { display: none; }
+  @media (max-width: 780px) {
+    .navlinks { display: none; }
+    .navmobile { display: block; }
+  }
+
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* ---- Hero ---- */
+  .hero { padding: 88px 0 64px; }
+  .eyebrow {
+    color: var(--gold); margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before {
+    content: ""; width: 22px; height: 1px; background: var(--gold); display: inline-block;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 5.4vw, 58px);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+  }
+  .hero .sub {
+    margin-top: 22px; font-size: 17px; line-height: 1.6; color: var(--text-soft);
+    max-width: 540px;
+  }
+  .hero-ctas { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+  .btn {
+    font-family: ui-monospace, monospace; font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; font-weight: 700; text-decoration: none;
+    padding: 13px 22px; display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border-strong); transition: opacity 0.15s ease, background 0.15s ease;
+  }
+  .btn-primary { background: var(--chip-bg); color: var(--chip-text); border-color: var(--chip-bg); }
+  .btn-primary:hover { opacity: 0.86; }
+  .btn-ghost { background: transparent; color: var(--text); }
+  .btn-ghost:hover { border-color: var(--text); }
+
+  .hero-visual-row {
+    margin-top: 64px;
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 0;
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 860px) { .hero-visual-row { grid-template-columns: 1fr; } }
+
+  .grid-panel { padding: 22px 24px 24px; border-right: 1px solid var(--border); }
+  @media (max-width: 860px) { .grid-panel { border-right: none; border-bottom: 1px solid var(--border); } }
+  .grid-panel-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+  .grid-panel-head .label { color: var(--text-faint); }
+  canvas#seatgrid { display: block; width: 100%; height: auto; }
+  .grid-caption { margin-top: 12px; font-size: 10.5px; color: var(--text-faint); font-family: ui-monospace, monospace; }
+
+  .stat-stack { display: flex; flex-direction: column; }
+  .stat-cell { padding: 20px 24px; border-bottom: 1px solid var(--border); }
+  .stat-cell:last-child { border-bottom: none; }
+  .stat-num {
+    font-family: ui-monospace, monospace; font-size: 27px; font-weight: 700;
+    font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  }
+  .stat-num.gold { color: var(--gold); }
+  .stat-num.occ { color: var(--occupied); }
+  .stat-num.avail { color: var(--available); }
+  .stat-label { margin-top: 4px; font-size: 12.5px; color: var(--text-soft); line-height: 1.4; }
+
+  /* ---- Section chrome ---- */
+  section { padding: 84px 0; }
+  section + section { border-top: 1px solid var(--border); }
+  .sec-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 44px; }
+  .sec-num { font-family: ui-monospace, monospace; font-size: 11px; color: var(--text-faint); }
+  .sec-title { font-size: clamp(24px, 3vw, 32px); }
+  .sec-kicker { color: var(--text-faint); margin-top: 6px; }
+
+  /* ---- Problem triptych ---- */
+  .triptych { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border); }
+  @media (max-width: 780px) { .triptych { grid-template-columns: 1fr; } }
+  .card {
+    padding: 28px 26px; border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .triptych .card:last-child { border-right: none; }
+  @media (max-width: 780px) {
+    .card { border-right: none; border-bottom: 1px solid var(--border); }
+    .triptych .card:last-child { border-bottom: none; }
+  }
+  .card-tag { font-family: ui-monospace, monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--occupied); }
+  .card h3 { font-size: 19px; line-height: 1.3; }
+  .card p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-soft); }
+  .card .stat { font-family: ui-monospace, monospace; font-size: 22px; font-weight: 700; color: var(--text); }
+
+  /* ---- Process strip ---- */
+  .process { display: flex; border: 1px solid var(--border); overflow-x: auto; }
+  .process-step {
+    flex: 1 1 0; min-width: 168px; padding: 24px 20px; border-right: 1px solid var(--border); position: relative;
+  }
+  .process-step:last-child { border-right: none; }
+  .process-idx { font-family: ui-monospace, monospace; font-size: 11px; color: var(--gold); font-weight: 700; }
+  .process-step h4 { margin-top: 10px; font-size: 15.5px; font-family: Georgia, serif; font-weight: 400; }
+  .process-step p { margin: 8px 0 0; font-size: 12.5px; line-height: 1.55; color: var(--text-soft); }
+  .process-arrow {
+    display: none;
+  }
+
+  /* ---- Two column (students/universities) ---- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); }
+  @media (max-width: 780px) { .split { grid-template-columns: 1fr; } }
+  .split-col { padding: 32px 30px; }
+  .split-col:first-child { border-right: 1px solid var(--border); }
+  @media (max-width: 780px) { .split-col:first-child { border-right: none; border-bottom: 1px solid var(--border); } }
+  .split-col .label { color: var(--gold); margin-bottom: 8px; }
+  .split-col h3 { font-size: 22px; margin-bottom: 18px; }
+  .split-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+  .split-col li { font-size: 14.5px; line-height: 1.55; color: var(--text-soft); padding-left: 18px; position: relative; }
+  .split-col li::before {
+    content: ""; position: absolute; left: 0; top: 7px; width: 6px; height: 6px; background: var(--gold);
+  }
+  .split-col li strong { color: var(--text); font-weight: 600; }
+
+  /* ---- Compare table ---- */
+  .compare-wrap { overflow-x: auto; border: 1px solid var(--border); }
+  table.compare { width: 100%; border-collapse: collapse; min-width: 560px; }
+  table.compare th, table.compare td {
+    text-align: left; padding: 14px 20px; font-size: 13.5px; border-bottom: 1px solid var(--border);
+    vertical-align: top; line-height: 1.5;
+  }
+  table.compare th {
+    font-family: ui-monospace, monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-faint); font-weight: 600; border-bottom: 1px solid var(--border-strong);
+  }
+  table.compare tr:last-child td { border-bottom: none; }
+  table.compare td.feature { font-weight: 600; }
+  table.compare td.us { color: var(--available); }
+  table.compare td.them { color: var(--text-faint); }
+
+  /* ---- Pricing ---- */
+  .pricing-row { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; border: 1px solid var(--border); }
+  @media (max-width: 780px) { .pricing-row { grid-template-columns: 1fr; } }
+  .pricing-main { padding: 34px 32px; border-right: 1px solid var(--border); }
+  @media (max-width: 780px) { .pricing-main { border-right: none; border-bottom: 1px solid var(--border); } }
+  .pricing-main .amount { font-family: ui-monospace, monospace; font-size: 40px; font-weight: 700; letter-spacing: -0.01em; }
+  .pricing-main .amount span { font-size: 15px; color: var(--text-faint); font-weight: 500; }
+  .pricing-main p { color: var(--text-soft); font-size: 14px; line-height: 1.6; max-width: 420px; }
+  .pricing-side { padding: 34px 32px; display: flex; flex-direction: column; gap: 16px; }
+  .pricing-side .item { display: flex; justify-content: space-between; font-size: 13.5px; border-bottom: 1px dashed var(--border); padding-bottom: 12px; }
+  .pricing-side .item:last-child { border-bottom: none; padding-bottom: 0; }
+  .pricing-side .item span:first-child { color: var(--text-soft); }
+  .pricing-side .item span:last-child { font-family: ui-monospace, monospace; font-weight: 600; }
+
+  /* ---- Roadmap ---- */
+  .roadmap { display: flex; flex-direction: column; }
+  .rm-row { display: grid; grid-template-columns: 90px 1fr; border-top: 1px solid var(--border); padding: 26px 0; gap: 20px; }
+  .rm-row:first-child { border-top: none; }
+  .rm-year { font-family: ui-monospace, monospace; font-size: 12px; color: var(--gold); font-weight: 700; align-self: start; padding-top: 2px; }
+  .rm-body h4 { font-size: 18px; font-family: Georgia, serif; font-weight: 400; margin-bottom: 6px; }
+  .rm-body p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-soft); max-width: 620px; }
+
+  /* ---- Company ---- */
+  .company-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  @media (max-width: 780px) { .company-grid { grid-template-columns: 1fr; gap: 32px; } }
+  .values { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .value-tag {
+    font-family: ui-monospace, monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    border: 1px solid var(--border-strong); padding: 7px 12px; color: var(--text-soft);
+  }
+
+  /* ---- CTA / footer ---- */
+  .cta-section { text-align: left; }
+  .cta-box {
+    border: 1px solid var(--border-strong); padding: 52px 44px; display: flex; justify-content: space-between;
+    align-items: flex-end; gap: 32px; flex-wrap: wrap; background: var(--bg-2);
+  }
+  .cta-box h2 { font-size: clamp(24px, 3.4vw, 34px); max-width: 480px; }
+  .cta-box .sub { color: var(--text-soft); margin-top: 12px; font-size: 14.5px; max-width: 440px; }
+
+  footer { border-top: 1px solid var(--border); padding: 36px 0 44px; }
+  .foot-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .foot-row .label { color: var(--text-faint); }
+  .foot-links { display: flex; gap: 20px; }
+  .foot-links a { font-family: ui-monospace, monospace; font-size: 11px; color: var(--text-faint); text-decoration: none; }
+  .foot-links a:hover { color: var(--text-soft); }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap navrow">
+    <a href="#top" class="wordmark">
+      <svg class="glyph" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <rect x="1" y="9" width="16" height="7.2" stroke="currentColor" stroke-width="1.1"/>
+        <rect x="4.4" y="1" width="3" height="8" fill="var(--gold)"/>
+        <rect x="9" y="4.2" width="3" height="4.8" fill="currentColor" opacity="0.55"/>
+      </svg>
+      FINDASPOT
+    </a>
+    <div class="navlinks">
+      <a href="#product">Product</a>
+      <a href="#how">How it works</a>
+      <a href="#universities">Universities</a>
+      <a href="#students">Students</a>
+      <a href="#company">Company</a>
+    </div>
+    <a class="navcta" href="#contact">Request a pilot</a>
+  </div>
+</nav>
+
+<div id="top"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow label">Smart campus · library seat intelligence</div>
+    <h1>Every seat should<br>tell the truth.</h1>
+    <p class="sub">FindaSpot reads your library's floor in real time and tells each student exactly where to sit — while giving your administrators the data to finally end seat hoarding, without buying a single sensor.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#contact">Request a pilot →</a>
+      <a class="btn btn-ghost" href="#how">See how it works</a>
+    </div>
+
+    <div class="hero-visual-row">
+      <div class="grid-panel">
+        <div class="grid-panel-head">
+          <span class="label">1F reading room — illustrative</span>
+          <span class="label" style="color:var(--gold)">Live view</span>
+        </div>
+        <canvas id="seatgrid" width="640" height="280" role="img" aria-label="Animated illustration of a library seating grid, with seats shifting between available, occupied, and matched states"></canvas>
+        <div class="grid-caption">Simulated for demonstration — reflects how occupancy renders once a library goes live.</div>
+      </div>
+      <div class="stat-stack">
+        <div class="stat-cell">
+          <div class="stat-num occ">25–35%</div>
+          <div class="stat-label">of library seats sit marked "occupied" while physically empty, per campus audits.</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">20–30 min</div>
+          <div class="stat-label">lost per visit wandering floors for a desk — worse during exam weeks.</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num gold">70%↓</div>
+          <div class="stat-label">search time we're targeting with AI-matched recommendations.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="product">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">01</span>
+      <div>
+        <h2 class="sec-title">The problem isn't a lack of seats.</h2>
+        <div class="sec-kicker">It's not knowing which ones are actually free.</div>
+      </div>
+    </div>
+    <div class="triptych">
+      <div class="card">
+        <span class="card-tag">Pain point 01</span>
+        <div class="stat">20–30 min</div>
+        <h3>Searching, floor by floor</h3>
+        <p>Students walk the building blind, checking desk after desk — a routine that gets worse exactly when the library is busiest, during midterms and finals.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Pain point 02</span>
+        <div class="stat">Hours, unused</div>
+        <h3>Hoarding nobody enforces</h3>
+        <p>A bag on the chair and a book on the desk hold a seat for hours while the student who claimed it is somewhere else entirely.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Pain point 03</span>
+        <div class="stat">Zero visibility</div>
+        <h3>No way to know until you look</h3>
+        <p>There's no signal for whether an empty-looking seat is truly free, briefly stepped away from, or sitting next to the outlet and quiet zone you actually need.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">02</span>
+      <div>
+        <h2 class="sec-title">One loop, start to finish.</h2>
+        <div class="sec-kicker">From opening the app to the seat freeing itself again.</div>
+      </div>
+    </div>
+    <div class="process">
+      <div class="process-step">
+        <div class="process-idx">01</div>
+        <h4>Open the app</h4>
+        <p>Students see their library's live floor the moment they open FindaSpot — no login wall, no setup.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-idx">02</div>
+        <h4>Get matched</h4>
+        <p>Describe what you need — quiet, near a plug, a table for four — and the recommendation engine finds it.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-idx">03</div>
+        <h4>Scan in on arrival</h4>
+        <p>A quick QR check-in at the desk confirms a real student is really there, closing off remote or fraudulent claims.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-idx">04</div>
+        <h4>Released automatically</h4>
+        <p>Step away too long, and the seat quietly returns to the pool — no staff walkthrough required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="universities">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">03</span>
+      <div>
+        <h2 class="sec-title">Built for both sides of the desk.</h2>
+        <div class="sec-kicker">What changes for the people who run the library, and the people studying in it.</div>
+      </div>
+    </div>
+    <div class="split">
+      <div class="split-col" id="students-anchor">
+        <div class="label">For students</div>
+        <h3>Stop guessing. Start sitting.</h3>
+        <ul>
+          <li><strong>Real-time availability</strong> across every floor, updated as seats fill and empty.</li>
+          <li><strong>AI-matched recommendations</strong> that weigh noise level, outlets, and how far you'll have to walk.</li>
+          <li><strong>A fair shot at a seat</strong> — hoarded desks get released automatically, not left to chance.</li>
+          <li><strong>Free to use</strong>, always — the university carries the subscription, not you.</li>
+        </ul>
+      </div>
+      <div class="split-col" id="universities-anchor">
+        <div class="label">For universities</div>
+        <h3>Run the library on data, not guesswork.</h3>
+        <ul>
+          <li><strong>Live heat maps</strong> and an analytics dashboard your team actually opens.</li>
+          <li><strong>Zero hardware investment</strong> — no infrared sensors, no gates, no renovation.</li>
+          <li><strong>Lower administrative load</strong>, with automated reports replacing manual walkthroughs.</li>
+          <li><strong>Encrypted, role-based access</strong> that meets higher-ed data protection standards.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">04</span>
+      <div>
+        <h2 class="sec-title">Why not just add sensors?</h2>
+        <div class="sec-kicker">Because the fastest way to lose a procurement cycle is to ask for a renovation budget.</div>
+      </div>
+    </div>
+    <div class="compare-wrap">
+      <table class="compare">
+        <thead>
+          <tr><th>Approach</th><th>Deployment</th><th>What it actually tells you</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feature">Generic booking software</td>
+            <td class="them">Manual entry, no ground truth</td>
+            <td class="them">Whether a seat was <em>reserved</em> — not whether anyone showed up</td>
+          </tr>
+          <tr>
+            <td class="feature">Infrared / hardware sensors</td>
+            <td class="them">Physical install per desk, weeks</td>
+            <td class="them">Presence only — no recommendation, no fairness logic</td>
+          </tr>
+          <tr>
+            <td class="feature">FindaSpot</td>
+            <td class="us">Software-only, live in days</td>
+            <td class="us">Real occupancy, matched to what each student actually needs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">05</span>
+      <div>
+        <h2 class="sec-title">One subscription, no hidden install fee.</h2>
+        <div class="sec-kicker">Universities license FindaSpot; students never pay a cent.</div>
+      </div>
+    </div>
+    <div class="pricing-row">
+      <div class="pricing-main">
+        <div class="amount">$8k–18k<span>/ year, per campus</span></div>
+        <p>Priced by student population, not by desk — so cost scales with your institution, not with how many chairs are in the reading room. Includes the student app, admin dashboard, and standard support.</p>
+        <a class="btn btn-ghost" href="#contact" style="margin-top:18px;">Talk to us about your campus →</a>
+      </div>
+      <div class="pricing-side">
+        <div class="item"><span>Pilot program</span><span>3 months, free</span></div>
+        <div class="item"><span>Hardware required</span><span>None</span></div>
+        <div class="item"><span>Student cost</span><span>$0</span></div>
+        <div class="item"><span>Custom branding / API</span><span>Add-on</span></div>
+        <div class="item"><span>Support SLA target</span><span>&gt;90% in 24h</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">06</span>
+      <div>
+        <h2 class="sec-title">Where this goes next.</h2>
+        <div class="sec-kicker">Three phases, each one funded by the last.</div>
+      </div>
+    </div>
+    <div class="roadmap">
+      <div class="rm-row">
+        <div class="rm-year">YEAR 1</div>
+        <div class="rm-body">
+          <h4>Foundational MVP</h4>
+          <p>The core reservation engine, student mobile and web apps, QR check-in, and a first pass at admin dashboards — piloted in one benchmark library.</p>
+        </div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-year">YEAR 2</div>
+        <div class="rm-body">
+          <h4>AI &amp; mid-tier expansion</h4>
+          <p>The AI recommendation engine goes live campus-wide, and scheduling extends beyond the library into classrooms and shared study rooms.</p>
+        </div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-year">YEAR 3</div>
+        <div class="rm-body">
+          <h4>Smart campus ecosystem</h4>
+          <p>Sports facilities, labs, and meeting rooms join the same live map — FindaSpot becomes the resource layer for the whole campus, not just the library.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="company">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num mono">07</span>
+      <div>
+        <h2 class="sec-title">Who's building this.</h2>
+        <div class="sec-kicker">A small team that got tired of walking three floors for a chair.</div>
+      </div>
+    </div>
+    <div class="company-grid">
+      <div>
+        <p style="font-size:15px; line-height:1.7; color:var(--text-soft); margin:0;">FindaSpot started as a student project at Dalian Neusoft University of Information, built by people who were doing the exact floor-by-floor search this platform exists to end. We're building toward becoming the resource-management layer smart campuses reach for first — starting with the library, because that's where the problem was most obvious.</p>
+      </div>
+      <div>
+        <div class="label" style="color:var(--gold);">What we optimize for</div>
+        <div class="values">
+          <span class="value-tag">Innovation</span>
+          <span class="value-tag">Fairness</span>
+          <span class="value-tag">Efficiency</span>
+          <span class="value-tag">Sustainability</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="cta-section">
+  <div class="wrap">
+    <div class="cta-box">
+      <div>
+        <h2>Bring FindaSpot to your library.</h2>
+        <div class="sub">Start with a free three-month pilot — no hardware, no renovation, live in days. We'll help your team set up the floor plan and get students onboarded.</div>
+      </div>
+      <a class="btn btn-primary" href="mailto:hello@findaspot.io">hello@findaspot.io →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span class="label">FindaSpot — Dalian Neusoft University of Information</span>
+    <div class="foot-links">
+      <a href="#product">Product</a>
+      <a href="#how">How it works</a>
+      <a href="#company">Company</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var canvas = document.getElementById('seatgrid');
+    var ctx = canvas.getContext('2d');
+    var cols = 16, rows = 7;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function themeColors() {
+      var css = getComputedStyle(document.documentElement);
+      return {
+        border: css.getPropertyValue('--border').trim() || 'rgba(17,17,16,0.13)',
+        text: css.getPropertyValue('--text').trim() || '#111110',
+        gold: css.getPropertyValue('--gold').trim() || '#B8944A',
+        avail: css.getPropertyValue('--available').trim() || '#2E7A50',
+        occ: css.getPropertyValue('--occupied').trim() || '#A83838'
+      };
+    }
+
+    // state: 0 empty, 1 available(outline), 2 occupied(fill), 3 matched(gold fill)
+    var state = [];
+    for (var i = 0; i < cols * rows; i++) {
+      state.push(Math.random() < 0.35 ? 2 : (Math.random() < 0.5 ? 1 : 0));
+    }
+    state[Math.floor(cols * rows * 0.6)] = 3;
+
+    function draw() {
+      var w = canvas.clientWidth || 640;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = w * dpr;
+      canvas.height = (w * (rows / cols) * 0.62) * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var W = canvas.width / dpr, H = canvas.height / dpr;
+      ctx.clearRect(0, 0, W, H);
+
+      var pad = 4;
+      var cellW = W / cols, cellH = H / rows;
+      var c = themeColors();
+
+      for (var r = 0; r < rows; r++) {
+        for (var cI = 0; cI < cols; cI++) {
+          var idx = r * cols + cI;
+          var x = cI * cellW + pad / 2, y = r * cellH + pad / 2;
+          var w2 = cellW - pad, h2 = cellH - pad;
+          var s = state[idx];
+          if (s === 0) {
+            ctx.strokeStyle = c.border;
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x + 0.5, y + 0.5, w2, h2);
+          } else if (s === 1) {
+            ctx.strokeStyle = c.avail;
+            ctx.lineWidth = 1.2;
+            ctx.strokeRect(x + 0.5, y + 0.5, w2, h2);
+          } else if (s === 2) {
+            ctx.fillStyle = c.occ;
+            ctx.globalAlpha = 0.55;
+            ctx.fillRect(x, y, w2, h2);
+            ctx.globalAlpha = 1;
+          } else if (s === 3) {
+            ctx.fillStyle = c.gold;
+            ctx.fillRect(x, y, w2, h2);
+            ctx.strokeStyle = c.gold;
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(x + 0.5, y + 0.5, w2, h2);
+          }
+        }
+      }
+    }
+
+    draw();
+    window.addEventListener('resize', draw);
+
+    if (!reduceMotion) {
+      setInterval(function () {
+        // flip a small number of cells each tick, keep exactly one "matched" cell
+        var flips = 2 + Math.floor(Math.random() * 2);
+        for (var f = 0; f < flips; f++) {
+          var idx = Math.floor(Math.random() * state.length);
+          if (state[idx] === 3) continue;
+          var r = Math.random();
+          state[idx] = r < 0.4 ? 2 : (r < 0.75 ? 1 : 0);
+        }
+        draw();
+      }, 900);
+    }
+
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    mq.addEventListener && mq.addEventListener('change', draw);
+    var mo = new MutationObserver(draw);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  })();
+</script>
+</body>
+</html>

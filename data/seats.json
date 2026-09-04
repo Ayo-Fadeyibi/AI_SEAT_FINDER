@@ -1,0 +1,784 @@
+{
+  "seats": [
+    {
+      "id": "1F-Q01",
+      "name_zh": "1F Quiet Desk 1",
+      "name_en": "1F Quiet Desk 1",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 1,
+      "location_zh": "1F East Quiet Zone",
+      "location_en": "1F East Quiet Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        64,
+        381,
+        65,
+        55
+      ]
+    },
+    {
+      "id": "1F-Q02",
+      "name_zh": "1F Quiet Desk 2",
+      "name_en": "1F Quiet Desk 2",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 1,
+      "location_zh": "1F East Quiet Zone",
+      "location_en": "1F East Quiet Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        62,
+        90,
+        65,
+        55
+      ]
+    },
+    {
+      "id": "1F-Q03",
+      "name_zh": "1F Quiet Desk 3",
+      "name_en": "1F Quiet Desk 3",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 1,
+      "location_zh": "1F East Quiet Zone",
+      "location_en": "1F East Quiet Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        60,
+        185,
+        65,
+        55
+      ]
+    },
+    {
+      "id": "1F-Q04",
+      "name_zh": "1F Quiet Desk 4",
+      "name_en": "1F Quiet Desk 4",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 0,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 1,
+      "location_zh": "1F East Quiet Zone",
+      "location_en": "1F East Quiet Zone",
+      "occupancyStatus": "occupied",
+      "bbox": [
+        145,
+        185,
+        65,
+        55
+      ]
+    },
+    {
+      "id": "1F-Q05",
+      "name_zh": "1F Quiet Desk 5",
+      "name_en": "1F Quiet Desk 5",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 1,
+      "location_zh": "1F East Quiet Zone",
+      "location_en": "1F East Quiet Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        60,
+        270,
+        65,
+        55
+      ]
+    },
+    {
+      "id": "1F-Q06",
+      "name_zh": "1F Quiet Desk 6",
+      "name_en": "1F Quiet Desk 6",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 1,
+      "location_zh": "1F East Quiet Zone",
+      "location_en": "1F East Quiet Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        145,
+        270,
+        65,
+        55
+      ]
+    },
+    {
+      "id": "1F-G02",
+      "name_zh": "1F Group Table 2",
+      "name_en": "1F Group Table 2",
+      "zoneType": "collaborative",
+      "capacity": 6,
+      "availableSeats": 6,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 1,
+      "location_zh": "1F West Collab Zone",
+      "location_en": "1F West Collab Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        369,
+        103,
+        160,
+        90
+      ]
+    },
+    {
+      "id": "1F-G03",
+      "name_zh": "1F Group Table 3",
+      "name_en": "1F Group Table 3",
+      "zoneType": "collaborative",
+      "capacity": 4,
+      "availableSeats": 4,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 1,
+      "location_zh": "1F West Collab Zone",
+      "location_en": "1F West Collab Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        375,
+        254,
+        140,
+        80
+      ]
+    },
+    {
+      "id": "1F-G04",
+      "name_zh": "1F Lounge Area",
+      "name_en": "1F Lounge Area",
+      "zoneType": "collaborative",
+      "capacity": 3,
+      "availableSeats": 3,
+      "equipment": [],
+      "floor": 1,
+      "location_zh": "1F Entry Lounge",
+      "location_en": "1F Entry Lounge",
+      "occupancyStatus": "available",
+      "bbox": [
+        560,
+        100,
+        110,
+        70
+      ]
+    },
+    {
+      "id": "2F-Q01",
+      "name_zh": "2F Study Carrel 1",
+      "name_en": "2F Study Carrel 1",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F North Silent Zone",
+      "location_en": "2F North Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        60,
+        80,
+        60,
+        50
+      ]
+    },
+    {
+      "id": "2F-Q02",
+      "name_zh": "2F Study Carrel 2",
+      "name_en": "2F Study Carrel 2",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F North Silent Zone",
+      "location_en": "2F North Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        140,
+        80,
+        60,
+        50
+      ]
+    },
+    {
+      "id": "2F-Q03",
+      "name_zh": "2F Study Carrel 3",
+      "name_en": "2F Study Carrel 3",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 0,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F North Silent Zone",
+      "location_en": "2F North Silent Zone",
+      "occupancyStatus": "occupied",
+      "bbox": [
+        220,
+        80,
+        60,
+        50
+      ]
+    },
+    {
+      "id": "2F-Q04",
+      "name_zh": "2F Study Carrel 4",
+      "name_en": "2F Study Carrel 4",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F North Silent Zone",
+      "location_en": "2F North Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        60,
+        155,
+        60,
+        50
+      ]
+    },
+    {
+      "id": "2F-Q05",
+      "name_zh": "2F Study Carrel 5",
+      "name_en": "2F Study Carrel 5",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F North Silent Zone",
+      "location_en": "2F North Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        140,
+        155,
+        60,
+        50
+      ]
+    },
+    {
+      "id": "2F-Q06",
+      "name_zh": "2F Study Carrel 6",
+      "name_en": "2F Study Carrel 6",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F North Silent Zone",
+      "location_en": "2F North Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        220,
+        155,
+        60,
+        50
+      ]
+    },
+    {
+      "id": "2F-Q07",
+      "name_zh": "2F Study Carrel 7",
+      "name_en": "2F Study Carrel 7",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F North Silent Zone",
+      "location_en": "2F North Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        60,
+        230,
+        60,
+        50
+      ]
+    },
+    {
+      "id": "2F-Q08",
+      "name_zh": "2F Study Carrel 8",
+      "name_en": "2F Study Carrel 8",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F North Silent Zone",
+      "location_en": "2F North Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        140,
+        230,
+        60,
+        50
+      ]
+    },
+    {
+      "id": "2F-Q09",
+      "name_zh": "2F Study Carrel 9",
+      "name_en": "2F Study Carrel 9",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F North Silent Zone",
+      "location_en": "2F North Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        220,
+        230,
+        60,
+        50
+      ]
+    },
+    {
+      "id": "2F-G01",
+      "name_zh": "2F Group Room 1",
+      "name_en": "2F Group Room 1",
+      "zoneType": "collaborative",
+      "capacity": 4,
+      "availableSeats": 4,
+      "equipment": [
+        "power_outlet",
+        "projector"
+      ],
+      "floor": 2,
+      "location_zh": "2F South Collab Zone",
+      "location_en": "2F South Collab Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        380,
+        100,
+        130,
+        75
+      ]
+    },
+    {
+      "id": "2F-G02",
+      "name_zh": "2F Group Room 2",
+      "name_en": "2F Group Room 2",
+      "zoneType": "collaborative",
+      "capacity": 6,
+      "availableSeats": 6,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F South Collab Zone",
+      "location_en": "2F South Collab Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        380,
+        210,
+        150,
+        85
+      ]
+    },
+    {
+      "id": "2F-G03",
+      "name_zh": "2F Computer Area",
+      "name_en": "2F Computer Area",
+      "zoneType": "collaborative",
+      "capacity": 2,
+      "availableSeats": 2,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 2,
+      "location_zh": "2F South Computer Zone",
+      "location_en": "2F South Computer Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        560,
+        100,
+        110,
+        65
+      ]
+    },
+    {
+      "id": "3F-Q01",
+      "name_zh": "3F Deep Study 1",
+      "name_en": "3F Deep Study 1",
+      "zoneType": "quiet",
+      "capacity": 3,
+      "availableSeats": 3,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        60,
+        80,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-Q02",
+      "name_zh": "3F Deep Study 2",
+      "name_en": "3F Deep Study 2",
+      "zoneType": "quiet",
+      "capacity": 3,
+      "availableSeats": 3,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        130,
+        80,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-Q03",
+      "name_zh": "3F Deep Study 3",
+      "name_en": "3F Deep Study 3",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        200,
+        80,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-Q04",
+      "name_zh": "3F Deep Study 4",
+      "name_en": "3F Deep Study 4",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        60,
+        145,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-Q05",
+      "name_zh": "3F Deep Study 5",
+      "name_en": "3F Deep Study 5",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        130,
+        145,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-Q06",
+      "name_zh": "3F Deep Study 6",
+      "name_en": "3F Deep Study 6",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        200,
+        145,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-Q07",
+      "name_zh": "3F Deep Study 7",
+      "name_en": "3F Deep Study 7",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        60,
+        210,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-Q08",
+      "name_zh": "3F Deep Study 8",
+      "name_en": "3F Deep Study 8",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        130,
+        210,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-Q09",
+      "name_zh": "3F Deep Study 9",
+      "name_en": "3F Deep Study 9",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        200,
+        210,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-Q10",
+      "name_zh": "3F Deep Study 10",
+      "name_en": "3F Deep Study 10",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        60,
+        275,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-Q11",
+      "name_zh": "3F Deep Study 11",
+      "name_en": "3F Deep Study 11",
+      "zoneType": "quiet",
+      "capacity": 1,
+      "availableSeats": 1,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F Silent Zone",
+      "location_en": "3F Silent Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        130,
+        275,
+        55,
+        45
+      ]
+    },
+    {
+      "id": "3F-G01",
+      "name_zh": "3F Seminar Room",
+      "name_en": "3F Seminar Room",
+      "zoneType": "collaborative",
+      "capacity": 8,
+      "availableSeats": 8,
+      "equipment": [
+        "power_outlet",
+        "projector"
+      ],
+      "floor": 3,
+      "location_zh": "3F East Seminar Zone",
+      "location_en": "3F East Seminar Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        380,
+        100,
+        180,
+        100
+      ]
+    },
+    {
+      "id": "3F-G02",
+      "name_zh": "3F Discussion Corner",
+      "name_en": "3F Discussion Corner",
+      "zoneType": "collaborative",
+      "capacity": 3,
+      "availableSeats": 3,
+      "equipment": [
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "3F East Discussion Zone",
+      "location_en": "3F East Discussion Zone",
+      "occupancyStatus": "available",
+      "bbox": [
+        579,
+        99,
+        110,
+        65
+      ]
+    },
+    {
+      "id": "Tmrcy546f0n",
+      "name_zh": "New Table",
+      "name_en": "New Table",
+      "zoneType": "collaborative",
+      "capacity": 3,
+      "availableSeats": 3,
+      "equipment": [
+        "power_outlet",
+        "projector"
+      ],
+      "floor": 4,
+      "location_zh": "Floor 4",
+      "location_en": "Floor 4",
+      "occupancyStatus": "available",
+      "bbox": [
+        40,
+        40,
+        90,
+        65
+      ]
+    },
+    {
+      "id": "Tmrcy76rio2",
+      "name_zh": "New Table",
+      "name_en": "New Table",
+      "zoneType": "collaborative",
+      "capacity": 4,
+      "availableSeats": 4,
+      "equipment": [
+        "power_outlet",
+        "projector"
+      ],
+      "floor": 4,
+      "location_zh": "Floor 4",
+      "location_en": "Floor 4",
+      "occupancyStatus": "available",
+      "bbox": [
+        391,
+        145,
+        90,
+        65
+      ]
+    },
+    {
+      "id": "Tmrcybldql7",
+      "name_zh": "New Table",
+      "name_en": "New Table",
+      "zoneType": "quiet",
+      "capacity": 4,
+      "availableSeats": 4,
+      "equipment": [
+        "projector",
+        "power_outlet"
+      ],
+      "floor": 3,
+      "location_zh": "Floor 3",
+      "location_en": "Floor 3",
+      "occupancyStatus": "available",
+      "bbox": [
+        65,
+        368,
+        90,
+        65
+      ]
+    }
+  ]
+}
