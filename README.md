@@ -189,3 +189,9 @@ to log in again.
   from the original project scaffold and are currently empty.
 - `docs/intent_contract.md` documents the data contract between the intent
   parser and optimizer in more detail.
+
+## My Contribution
+
+- Built both the student and admin user frontend interfaces
+- Worked on data collection/labelling for training
+- Integrated the detection output with a display interface
